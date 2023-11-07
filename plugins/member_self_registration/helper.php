@@ -55,18 +55,11 @@ function saveRegister()
 
     // set up data
     $map = [
-            'memberID' => 'member_id',
             'memberName' => 'member_name', 'memberBirth' => 'birth_date', 
             'memberInst' => 'inst_name', 'memberSex' => 'gender',
-            'memberBranch' => 'member_branch',
             'memberAddress' => 'member_address', 'memberPhone' => 'member_phone',
             'memberEmail' => 'member_email',
-            'memberFacebook' => 'member_fax',
             'memberType' => 'member_type_id',
-            'privacyAgreement' => 'privacy_agreement',
-            'libAgreement' => 'lib_agreement',
-            'memberDepartment' => 'member_department',
-           
            ];
 
     $data = [];
@@ -76,127 +69,34 @@ function saveRegister()
             $data[$column_name] = $dbs->escape_string(str_replace(['"'], '', strip_tags($_POST[$key])));
         }
     }
-    //userinput
-    $name = $_POST['memberName'];
-    $bday = $_POST['memberBirth'];
-    $address = $_POST['memberAddress'];
-    $phone = $_POST['memberPhone'];
-    $email = $dbs->real_escape_string($_POST['memberEmail']);
-    $fb = $_POST['memberFacebook'];
-    $courseYear= $_POST['memberInst'];
-    $gender = $_POST['memberSex'];
-    $mtype =$_POST['memberType'];
-    $password = $_POST['memberPassword1'];
 
-    
-    
-    $mID = $_POST['memberID'];
-    $inputID = "SELECT * FROM member_online WHERE member_id='$mID' LIMIT 1";
-    $inputID2 = "SELECT * FROM member WHERE member_id='$mID' LIMIT 1";
-
-    $idQuery = $dbs->query($inputID);
-    $idQuery2 = $dbs->query($inputID2);
-
-    if ($idQuery->num_rows > 0 OR $idQuery2->num_rows > 0) {
-        header("location:index.php?p=daftar_online&register=idexist");
-        exit();
-    } else {
-        $data['member_id'] = $mID;
-    }
-    
     if ((isset($_POST['memberPassword1']) && !empty($_POST['memberPassword1'])) && (isset($_POST['memberPassword2']) && !empty($_POST['memberPassword2'])))
     {
-        // Given password
-       
-
-
-        // Validate password strength
-        $uppercase = preg_match('@[A-Z]@', $password);
-        $lowercase = preg_match('@[a-z]@', $password);
-        $number    = preg_match('@[0-9]@', $password);
-        $specialChars = preg_match('@[^\w]@', $password);
-
-        if(!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) {
-            header("location:index.php?p=daftar_online&register=invalidpw&name=$name&bday=$bday&address=$address&phone=$phone&email=$email&fb=$fb");
-
-            // echo '<script type="text/javascript">';
-            // echo 'alert("Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.");';
-            // echo 'location.href = \'index.php?p=daftar_online=invalidpw\';';
-            // echo '</script>';
-            exit();
-            // echo 'Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.';
-        }else{
-            if ($_POST['memberPassword2'] === $_POST['memberPassword1'])
-            {
-                
-                $data['mpasswd'] = password_hash($_POST['memberPassword1'], PASSWORD_BCRYPT);
-                
-            }
-            else
-            {
-                // echo '<script type="text/javascript">';
-                // echo 'alert("Password cannot be empty");';
-                // echo 'location.href = \'index.php?p=daftar_online\';';
-                // echo '</script>';
-                header("location:index.php?p=daftar_online&register=pwnotmatched&name=$name&bday=$bday&address=$address&phone=$phone&email=$email&fb=$fb");
-                exit();
-            }
+        if ($_POST['memberPassword2'] === $_POST['memberPassword1'])
+        {
+            $data['mpasswd'] = password_hash($_POST['memberPassword1'], PASSWORD_BCRYPT);
         }
-
+        else
+        {
+            echo '<script type="text/javascript">';
+            echo 'alert("Password tidak boleh kosong");';
+            echo 'location.href = \'index.php?p=daftar_online\';';
+            echo '</script>';
+            exit();
+        }
     }
     else
     {
         echo '<script type="text/javascript">';
-        echo 'alert("Password cannot be empty");';
+        echo 'alert("Password tidak boleh kosong");';
         echo 'location.href = \'index.php?p=daftar_online\';';
         echo '</script>';
         exit();
     }
 
-    // if (!isset($_POST['memberFacebook'])) {
-    //     header("location:index.php?p=daftar_online&register=nofblink&name=$name&bday=$bday&address=$address&phone=$phone&email=$email");
-    //     exit();
-        
-    // }else {
-    //     $data['member_fax']  = $_POST['memberFacebook'];
-    // }
-    //check if ID is exist
-  
-    
-
-    //check if email is exist
-    $sql_string = "SELECT * FROM member_online WHERE member_email='$email' LIMIT 1";
-    $sql_string2 = "SELECT * FROM member WHERE member_email='$email' LIMIT 1";
-
-    // send query to database
-    $query = $dbs->query($sql_string);
-    $query2 = $dbs->query($sql_string2);
-
-    if ($query->num_rows > 0 OR $query2->num_rows > 0) {
-        header("location:index.php?p=daftar_online&register=emailexist");
-        exit();
-    
-    } else {
-         //Filter Laverdad Email
-    $domain = explode('@', $email);
-    switch (strtolower($domain[1])) {
-        case 'student.laverdad.edu.ph':
-        case 'laverdad.edu.ph':
-            $data['member_email'] = $dbs->real_escape_string($_POST['memberEmail']);
-            break;
-        
-        default:
-            header("location:index.php?p=daftar_online&register=invalidemail");
-            exit();
-            break;
-    }
-    }
-    
     // Date time
     $data['input_date'] = date('Y-m-d');
     $data['last_update'] = date('Y-m-d');
-
-    
 
 
     if ($table === 'member' && (int)$meta['autoActive'] === 0)
@@ -204,11 +104,11 @@ function saveRegister()
         $data['is_pending'] = 1;
     }
 
-    // if ($table === 'member')
-    // {
-    //     $data['member_id'] = rand(1000000, 9000000);
-    //     $data['expire_date'] = date('Y-m-d', strtotime("+1 year"));
-    // }
+    if ($table === 'member')
+    {
+        $data['member_id'] = substr(md5($data['member_name']), 0,20);
+        $data['expire_date'] = date('Y-m-d', strtotime("+1 year"));
+    }
 
     // Upload
     if (isset($meta['withImage']) && (bool)$meta['withImage'] === true)
@@ -219,7 +119,7 @@ function saveRegister()
 
         $Upload
             ->streamFrom('photoprofil')
-            ->limitSize('500KB')
+            ->limitSize('1MB')
             ->allowMime(['image/jpeg','image/png'])
             ->allowExt(['.png','.jpg','.jpeg'])
             ->storeToMahasiswa('persons')
@@ -231,20 +131,9 @@ function saveRegister()
         }
         else
         {
-            // utility::jsAlert('Image was not uploaded successfully because : ' . $Upload->getError());
-            header("location:index.php?p=daftar_online&register=imageerror");
-            exit();
+            utility::jsAlert('File tidak berhasil diunggah karena : ' . $Upload->getError());
         }
     }
-    if (!isset($_POST['privacyAgreement']) OR !isset($_POST['libAgreement'])) {
-        header("location:index.php?p=daftar_online&register=notagree");
-        exit();
-        # code...
-    }else {
-        $data['privacy_agreement'] = 'I Agree';
-        $data['lib_agreement'] = 'I Agree';
-    }
-    
         
 
     // do insert
@@ -256,18 +145,16 @@ function saveRegister()
 
     if ($insert)
     {
-        // echo '<script type="text/javascript">';
-        // echo 'alert("Registered successfully. '.$meta['regisInfo'].'");';
-        // echo 'location.href = \'index.php?p=daftar_online\';';
-        // echo '</script>';
-        // exit();
-        header("location:index.php?p=daftar_online&register=success");
+        echo '<script type="text/javascript">';
+        echo 'alert("Berhasil terdaftar. '.$meta['regisInfo'].'");';
+        echo 'location.href = \'index.php?p=daftar_online\';';
+        echo '</script>';
         exit();
     }
     else
     {
         echo '<script type="text/javascript">';
-        echo 'alert("Failed to register, immediately contact the librarian, for further information '.$sql->error.'");';
+        echo 'alert("Gagal terdaftar segera hubungi petugas perpustakaan, untuk info selanjutnya. '.$sql->error.'");';
         echo 'location.href = \'index.php?p=daftar_online\';';
         echo '</script>';
         exit();
@@ -302,9 +189,8 @@ function updateRegister()
             // select data
             $dataQuery = $dbs->query('select * from member_online where id = \''.$updateRecId.'\'');
 
-            // $memberId == ['member_id'];
+            $memberId = $dbs->escape_string($_POST['memberID']);
             $dataResult = ($dataQuery->num_rows > 0) ? $dataQuery->fetch_assoc() : [];
-
 
             // check status
             if ((int)$meta['editableData'] === 0 && count($dataResult) > 0)
@@ -312,21 +198,21 @@ function updateRegister()
                 // unset id
                 unset($dataResult['id']);
                 // merge data
-                $dataOnline = array_merge([ 'expire_date' => date('Y-m-d', strtotime("+1 year"))], $dataResult);
+                $dataOnline = array_merge(['member_id' => $memberId, 'expire_date' => date('Y-m-d', strtotime("+1 year"))], $dataResult);
                 // prepare to insert
                 $insert = $sql->insert('member', $dataOnline);
 
                 if ($insert)
                 {
                     $sql->delete('member_online', "id='$updateRecId'");
-                    utility::jsToastr('Self Register Form', 'Successfully save data', 'success');
+                    utility::jsToastr('Self Register Form', 'Berhasil menyimpan data', 'success');
                     echo '<script>parent.$("#mainContent").simbioAJAX("'.MWB.'membership/index.php")</script>';
                     exit;
                 }
                 else
                 {
                     utility::jsAlert($sql->error);
-                    utility::jsToastr('Self Register Form', 'Failed to save data 1', 'error');
+                    utility::jsToastr('Self Register Form', 'Gagal menyimpan data 1', 'error');
                     exit;
                 }
             }
@@ -334,24 +220,17 @@ function updateRegister()
             {
                 // set up data
                 $map = [
-                        'memberID' => 'member_id',
                         'memberName' => 'member_name', 'memberBirth' => 'birth_date', 
                         'memberInst' => 'inst_name', 'memberSex' => 'gender',
                         'memberAddress' => 'member_address', 'memberPhone' => 'member_phone',
-                        'memberEmail' => 'member_email',
-                        'memberFacebook' => 'member_fax',
-                        'memberBranch' => 'member_branch',
-                        'privacyAgreement' => 'privacy_agreement',
-                        'libAgreement' => 'lib_agreement',
-                        'memberDepartment' => 'member_department',
-
+                        'memberEmail' => 'member_email'
                     ];
 
                 $data = [];
                 foreach ($map as $key => $column_name) {
                     if (isset($_POST[$key]))
                     {
-                        $data[$column_name] = $dbs->escape_string(str_replace(['"'], '', strip_tags($_POST[$key])));
+                        $data[$column_name] = str_replace(['"'], '', strip_tags($_POST[$key]));
                     }
                 }
                 
@@ -360,27 +239,24 @@ function updateRegister()
                     $data['member_image'] = $dataResult['member_image'];
                 }
 
-                
-                $data['mpasswd'] = (isset($dataResult['mpasswd'])) ? $dataResult['mpasswd'] : 'No Password';
-                $data['member_type_id'] = (isset($dataResult['member_type_id'])) ? $dataResult['member_type_id'] : 0;
+                $data['member_id'] = $memberId;
+                $data['mpasswd'] = (isset($dataResult['mpasswd'])) ? $dataResult['mpasswd'] : 'Tidak Ada Password';
                 $data['input_date'] = (isset($dataResult['input_date'])) ? $dataResult['input_date'] : date('Y-m-d');
                 $data['last_update'] = date('Y-m-d');
                 $data['expire_date'] = date('Y-m-d', strtotime("+1 year"));
-                $data['privacy_agreement'] = (isset($dataResult['privacy_agreement'])) ? $dataResult['privacy_agreement'] : 0;
-                $data['lib_agreement'] = (isset($dataResult['lib_agreement'])) ? $dataResult['lib_agreement'] : 0;
 
                 $insert = $sql->insert('member', $data);
 
                 if ($insert)
                 {
                     $sql->delete('member_online', "id='$updateRecId'");
-                    utility::jsToastr('Self Register Form', 'Successfully save data', 'success');
+                    utility::jsToastr('Self Register Form', 'Berhasil menyimpan data', 'success');
                     echo '<script>parent.$("#mainContent").simbioAJAX("'.MWB.'membership/index.php")</script>';
                     exit;
                 }
                 else
                 {
-                    utility::jsToastr('Self Register Form', 'Failed to save data 2', 'error');
+                    utility::jsToastr('Self Register Form', 'Gagal menyimpan data 2', 'error');
                     exit;
                 }
             }
@@ -391,13 +267,13 @@ function updateRegister()
 
             if ($update)
             {
-                utility::jsToastr('Self Register Form', 'Successfully save data', 'success');
+                utility::jsToastr('Self Register Form', 'Berhasil menyimpan data', 'success');
                 echo '<script>parent.$("#mainContent").simbioAJAX("'.MWB.'membership/index.php")</script>';
                 exit;
             }
             else
             {
-                utility::jsToastr('Self Register Form', 'Failed to save data 3', 'error');
+                utility::jsToastr('Self Register Form', 'Gagal menyimpan data 3', 'error');
                 exit;
             }
         }
@@ -454,12 +330,12 @@ function saveSetting($self)
             // }
 
             // set alert
-            utility::jsToastr('Self Register Form', 'Successfully save data', 'success');
+            utility::jsToastr('Self Register Form', 'Berhasil menyimpan data', 'success');
             echo '<script>parent.$("#mainContent").simbioAJAX("'.$self.'")</script>';
         }
         else
         {
-            utility::jsToastr('Self Register Form', 'Failed to save data'.$sql->error, 'error');
+            utility::jsToastr('Self Register Form', 'Gagal menyimpan data '.$sql->error, 'error');
         }
         exit;
     }
@@ -495,12 +371,12 @@ function deleteItem($self)
 
         if (!$fail)
         {
-            utility::jsToastr('Register Member Online', 'Successfully deleted data.', 'success');
+            utility::jsToastr('Register Member Online', 'Berhail menghapus data.', 'success');
             echo '<script>parent.$("#mainContent").simbioAJAX("'.$self.'")</script>';
         }
         else
         {
-            utility::jsToastr('Register Member Online', 'Failed to delete data', 'error');
+            utility::jsToastr('Register Member Online', 'Gagal menghapus data', 'error');
         }
         exit;
     }
@@ -530,7 +406,6 @@ function createTable()
         `member_address` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
         `member_phone` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL,
         `member_email` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
-        `member_fax` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL,
         `mpasswd` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL,
         `input_date` date DEFAULT NULL,
         `last_update` date DEFAULT NULL
@@ -551,7 +426,7 @@ function dirCheckPermission()
     $msg = '';
     if (!is_writable(SB.'lib'.DS.'contents'.DS))
     {
-        $msg = 'Directory : <b>'.SB.'lib'.DS.'contents'.DS.'</b> Can not be written!. Please change the permissions on the folder.';
+        $msg = 'Direktori : <b>'.SB.'lib'.DS.'contents'.DS.'</b> tidak dapat ditulis!. Harap merubah permission pada folder tersebut.';
     }
 
     return $msg;

@@ -55,16 +55,10 @@ $form->addAnything(__('Member ID').'*', $str_input);
 $form->addTextField('text', 'memberName', __('Member Name').'*', $rec_d['member_name']??'', 'class="form-control" style="width: 50%;"');
 
 // member institution
-$form->addTextField('text', 'memberInst', __('Course and Year'), $rec_d['inst_name']??'', 'class="form-control" style="width: 50%;"');
-
-// member Department
-$form->addTextField('text', 'memberDepartment', __('Department'), $rec_d['member_department']??'', 'class="form-control" style="width: 50%;"');
-
-// member Branch
-$form->addTextField('text', 'memberBranch', __('School Branch'), $rec_d['member_branch']??'', 'class="form-control" style="width: 50%;"');
+$form->addTextField('text', 'instName', __('Institution'), $rec_d['inst_name']??'', 'class="form-control" style="width: 100%;"');
 
 // member birth date
-$form->addDateField('memberBirth',  __('Birth Date').'*', $rec_d['birth_date']??'','class="form-control"');
+$form->addDateField('birthDate', __('Birth Date').'*', $rec_d['birth_date']??'','class="form-control"');
 
 // member gender
 $gender_chbox[0] = array('1', __('Male'));
@@ -86,9 +80,6 @@ $mtype_data = $mtype_query->fetch_row();
 
 $form->addAnything(__('Membership Type'), $mtype_data[1]);
 
-
-
-
 // Member image
 if (isset($sysconf['selfRegistration']) && isset($sysconf['selfRegistration']['withImage']) && (bool)$sysconf['selfRegistration']['withImage'] === true)
 {
@@ -102,19 +93,10 @@ if (isset($sysconf['selfRegistration']) && isset($sysconf['selfRegistration']['w
 }
 
 // member is_pending
-$form->addCheckBox('isPending', 'Activate Member', array( array('1', __('Yes')) ), '');
+$form->addCheckBox('isPending', 'Aktifkan Member', array( array('1', __('Yes')) ), '');
 
 // member email
 $form->addTextField('text', 'memberEmail', __('E-mail'), $rec_d['member_email']??'', 'class="form-control" style="width: 40%;" class="form-control"');
-// member email
-$form->addTextField('text', 'memberFacebook', __('Facebook'), $rec_d['member_fax']??'', 'class="form-control" style="width: 40%;" class="form-control"');
-
-
-// member Privacy Agreement
-$form->addAnything( __('Privacy Agreement'), $rec_d['privacy_agreement']??'', 'class="form-control" style="width: 40%;" class="form-control"');
-// Library Agreement
-$form->addAnything(__('Library Agreement'), $rec_d['lib_agreement']??'', 'class="form-control" style="width: 40%;" class="form-control"');
-
 
 // print out the form object
 echo $form->printOut();

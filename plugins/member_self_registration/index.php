@@ -3,8 +3,6 @@
  * @Created by          : Drajat Hasan
  * @Date                : 2021-05-07 05:25:56
  * @File name           : index.php
- * 
- * @Modified by           : Jessie Soliman
  */
 
 defined('INDEX_AUTH') OR die('Direct access not allowed!');
@@ -30,13 +28,14 @@ if (!$can_read) {
     die('<div class="errorBox">' . __('You are not authorized to view this section') . '</div>');
 }
 
-$page_title = 'Online Registration';
+$page_title = 'Daftar Online';
 
 // set meta
 $meta = [];
 if (isset($sysconf['selfRegistration']))
 {
     $meta = $sysconf['selfRegistration'];
+    $meta = !is_array($meta) ? [] : $meta;
 }
 
 /* Action Area */
@@ -56,8 +55,8 @@ deleteItem(getCurrentUrl(['memberList' => 1]));
         </div>
         <div class="sub_section">
             <div class="btn-group">
-                <a href="<?= getCurrentUrl(['memberList' => 1]) ?>" class="btn btn-primary">New Registered Members List</a>
-                <a href="<?= getCurrentUrl(['formSetting' => 1]) ?>" class="btn btn-success">Form Settings</a>
+                <a href="<?= getCurrentUrl(['memberList' => 1]) ?>" class="btn btn-primary">Daftar Anggota Online</a>
+                <a href="<?= getCurrentUrl(['formSetting' => 1]) ?>" class="btn btn-success">Pengaturan Form</a>
             </div>
         </div>
     </div>

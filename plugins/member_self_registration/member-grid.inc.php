@@ -22,20 +22,17 @@ $table_spec = $attribute[0];
 
 // set column
 $datagrid->setSQLColumn($attribute[1], 
-                        'member_id AS \''.__('Member ID').'\'', 
                         'member_name AS \''.__('Member Name').'\'', 
                         'member_email AS \''.__('E-mail').'\'', 
-                        'inst_name AS \''.__('Grade/Year & Course/Section').'\'',
-                        'member_department AS \''.__('Department').'\'',
-                        'member_branch AS \''.__('School Branch').'\'',
-                        'input_date AS \'Date of Registration\'',
+                        'member_phone AS \''.__('Phone Number').'\'',
+                        'input_date AS \'Tanggal Daftar\'',
                         'last_update AS \'' . __('Last Update') . '\'');
 
 // ordering
 $datagrid->setSQLorder('last_update DESC');
 
 // is there any search
-$criteria = 'member_id IS NOT NULL';
+$criteria = $attribute[2];
 if (isset($_GET['keywords']) AND $_GET['keywords']) {
     $keywords = $dbs->escape_string($_GET['keywords']);
     $criteria .= " AND (m.member_name LIKE '%$keywords%' OR m.member_id LIKE '%$keywords%') ";
@@ -46,10 +43,10 @@ $datagrid->setSQLCriteria($criteria);
 // set table and table header attributes
 $datagrid->icon_edit = SWB.'admin/'.$sysconf['admin_template']['dir'].'/'.$sysconf['admin_template']['theme'].'/edit.gif';
 $datagrid->table_name = 'memberList';
-$datagrid->table_attr = 'id="dataList" class="s-table table-stripped" ';
+$datagrid->table_attr = 'id="dataList" class="s-table table"';
 $datagrid->table_header_attr = 'class="dataListHeader" style="font-weight: bold;"';
 // set delete proccess URL
-$datagrid->chbox_form_URL = true;
+$datagrid->chbox_form_URL = null;
 
 // put the result into variables
 $datagrid_result = $datagrid->createDataGrid($dbs, $table_spec, 20, true);
