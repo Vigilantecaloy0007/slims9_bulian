@@ -58,7 +58,7 @@ function createFormContent($_label, $_type, $_name, $_place_holder = '', $_is_re
 	}
 	// set tag
 	echo '<div class="form-group">';
-    echo '<label for="exampleInputEmail1">'.$_label.'</label>';
+    echo '<label for="">'.$_label.'</label>';
 
     $required = '';
     if ($_is_required)
@@ -72,14 +72,14 @@ function createFormContent($_label, $_type, $_name, $_place_holder = '', $_is_re
 			break;
 		
 		case 'password':
-			echo '<input type="'.$_type.'" name="'.$_name.'" class="form-control" '.$_value.' id="exampleInputEmail1" placeholder="'.$_place_holder.'" required '.$_autofocus.'/>';
+			echo '<input type="'.$_type.'" name="'.$_name.'" class="form-control" '.$_value.'  placeholder="'.$_place_holder.'" required '.$_autofocus.'/>';
 			break;
 		
 		case 'date':
-			echo '<input type="'.$_type.'" name="'.$_name.'" class="form-control" '.$_value.' id="exampleInputEmail1" value="'.$_value.'" required/>';
+			echo '<input type="'.$_type.'" name="'.$_name.'" class="form-control" '.$_value.' value="'.$_value.'" required/>';
 			break;	
 		default:
-		echo '<input type="'.$_type.'" name="'.$_name.'" class="form-control" '.$_value.' id="exampleInputEmail1" placeholder="'.$_place_holder.'" value="'.$_value.'" required '.$_autofocus.'/>';
+		echo '<input type="'.$_type.'" name="'.$_name.'" class="form-control" '.$_value.' placeholder="'.$_place_holder.'" value="'.$_value.'" required '.$_autofocus.'/>';
 			break;
 	}
 

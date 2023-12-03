@@ -68,7 +68,7 @@ if ((int)($meta['selfRegistrationActive']??0) === 1)
                 echo '<center class="alert alert-danger" role="alert">Password does not Matched</center>';
             }
             elseif ($registerCheck == "invalidemail") {
-                echo '<center class="alert alert-danger" role="alert">Invalid Email, please use your given Laverdad Email</center>';
+                echo '<center class="alert alert-danger" role="alert">Invalid Email, please use your given SPC Email</center>';
             }
             elseif ($registerCheck == "emailexist") {
                 echo '<center class="alert alert-danger" role="alert">Email Already Registered</center>';
@@ -81,7 +81,7 @@ if ((int)($meta['selfRegistrationActive']??0) === 1)
             }
 
             elseif ($registerCheck == "emailexist") {
-                echo '<center class="alert alert-danger" role="alert">Laverdad Email Already Registered</center>';
+                echo '<center class="alert alert-danger" role="alert">SPC Email Already Registered</center>';
             }
             elseif ($registerCheck == "imageerror") {
                 echo '<center class="alert alert-danger" role="alert">Image file size exceeds the maximum 500KB required file size, please resize your image not exceeding 500KB.</center>';
@@ -128,7 +128,7 @@ if ((int)($meta['selfRegistrationActive']??0) === 1)
 <?php 
             
         // Member ID
-        createFormContent(__('<strong>Student/Staff ID</strong><i> (ID Given by the school)</i><br>Example: <i>18-0068JDA.</i>'), 'text', 'school_id', 'Fill in your School ID', true, '', true);
+        createFormContent(__('<strong>Student/Staff ID</strong><i> (ID Given by the school)</i><br>Example: <i>18-0068JDA.</i>'), 'text', 'memberID', 'Fill in your School ID', true, '', true);
         // Member name
         if (isset($_GET['name'])) {
             $name = $_GET['name'];
@@ -153,7 +153,7 @@ if ((int)($meta['selfRegistrationActive']??0) === 1)
         // Institution
         // createFormContent(__('Institution'), 'text', 'memberInst', 'Isikan institusi anda');
 
-        createSelect(__('<strong>Grade & Year</strong>'), 'grade_year', 
+        createSelect(__('<strong>Grade & Year</strong>'), 'gradeYear', 
             [['label' => __('N/a'), 'value' => ''],
             ['label' => __('Nursery'), 'value' => 'Nursery'],
             ['label' => __('Kinder'), 'value' => 'Kinder'],
@@ -202,7 +202,7 @@ if ((int)($meta['selfRegistrationActive']??0) === 1)
             
             ]);
 
-        createSelect(__('<strong>College & Graduate</strong> <br><i>For College & Graduate</i>'), 'memberDepartment', 
+        createSelect(__('<strong>College & Graduate</strong> <br><i>For College & Graduate</i>'), 'collegeGrad', 
             [['label' => __('N/A'), 'value' => ''],
             ['label' => __('Bachelor of Arts'), 'value' => 'Bachelor of Arts'],
             ['label' => __('Bachelor of Arts in Communication'), 'value' => 'Bachelor of Arts in Communication'],
@@ -235,7 +235,7 @@ if ((int)($meta['selfRegistrationActive']??0) === 1)
 
         ]);
 
-        createSelect(__('<strong>Department</strong> <br><i>For SPC personnel only. Choose N/a if not applicable</i>'), 'memberDepartment', 
+        createSelect(__('<strong>Department</strong> <br><i>For SPC personnel only. Choose N/a if not applicable</i>'), 'department', 
             [['label' => __('N/A'), 'value' => ''],
             ['label' => __('SPC board of trustees'), 'value' => 'SPC board of trustees'],
             ['label' => __('College of Accountancy & College of Business Administration'), 'value' => 'College of Accountancy & College of Business Administration'],
@@ -316,18 +316,18 @@ if ((int)($meta['selfRegistrationActive']??0) === 1)
         //facebook
         if (isset($_GET['fb'])) {
             $email = $_GET['fb'];
-            createFormContent(__('<strong>Facebook Link</strong><br><i>Copy and Paste your Facebook Link</i>'), 'text', 'memberFacebook', 'Enter your Facebook link','', $email,'', true);
+            createFormContent(__('<strong>Facebook Link</strong><br><i>Copy and Paste your Facebook Link</i>'), 'text', 'memberFb', 'Enter your Facebook link','', $email,'', true);
         }
         else {
-            createFormContent(__('<strong>Facebook Link</strong><br><i>Copy and Paste your Facebook Link</i>'), 'text', 'memberFacebook', 'Enter your Facebook link', '','', true);
+            createFormContent(__('<strong>Facebook Link</strong><br><i>Copy and Paste your Facebook Link</i>'), 'text', 'memberFb', 'Enter your Facebook link', '','', true);
         }
         //email
         if (isset($_GET['email'])) {
             $email = $_GET['email'];
-            createFormContent(__('<strong>E-mail</strong><br><i>Use your SPC Email provided by the School</i>'), 'email', 'memberEmail', 'Enter your La Verdad Email','', $email);
+            createFormContent(__('<strong>E-mail</strong><br><i>Use your SPC Email provided by the School</i>'), 'email', 'memberEmail', 'Enter your SPC Email','', $email);
         }
         else {
-            createFormContent(__('<strong>E-mail</strong><br><i>Use your SPC Email provided by the School</i>'), 'email', 'memberEmail', 'Enter your La Verdad Email');
+            createFormContent(__('<strong>E-mail</strong><br><i>Use your SPC Email provided by the School</i>'), 'email', 'memberEmail', 'Enter your SPC Verdad Email');
         }
         
 

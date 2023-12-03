@@ -93,7 +93,7 @@ if (isset($sysconf['selfRegistration']) && isset($sysconf['selfRegistration']['w
 }
 
 // member is_pending
-$form->addCheckBox('isPending', 'Aktifkan Member', array( array('1', __('Yes')) ), '');
+$form->addCheckBox('isPending', 'Activate Member', array( array('1', __('Yes')) ), '');
 
 // member email
 $form->addTextField('text', 'memberEmail', __('E-mail'), $rec_d['member_email']??'', 'class="form-control" style="width: 40%;" class="form-control"');
