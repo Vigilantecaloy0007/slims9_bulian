@@ -76,30 +76,122 @@ function saveRegister()
             $data[$column_name] = $dbs->escape_string(str_replace(['"'], '', strip_tags($_POST[$key])));
         }
     }
+    //userinput
+    $name = $_POST['memberName'];
+    $bday = $_POST['memberBirth'];
+    $address = $_POST['memberAddress'];
+    $phone = $_POST['memberPhone'];
+    $email = $dbs->real_escape_string($_POST['memberEmail']);
+    $fb = $_POST['memberFb'];
+    $gender = $_POST['memberSex'];
+    $mtype =$_POST['memberType'];
+    $password = $_POST['memberPassword1'];
+
+    $mID = $_POST['memberID'];
+    $inputID = "SELECT * FROM member_online WHERE member_id='$mID' LIMIT 1";
+    $inputID2 = "SELECT * FROM member WHERE member_id='$mID' LIMIT 1";
+
+    $idQuery = $dbs->query($inputID);
+    $idQuery2 = $dbs->query($inputID2);
+
+    if ($idQuery->num_rows > 0 OR $idQuery2->num_rows > 0) {
+        header("location:index.php?p=daftar_online&register=idexist");
+        exit();
+    } else {
+        $data['member_id'] = $mID;
+    }
 
     if ((isset($_POST['memberPassword1']) && !empty($_POST['memberPassword1'])) && (isset($_POST['memberPassword2']) && !empty($_POST['memberPassword2'])))
     {
-        if ($_POST['memberPassword2'] === $_POST['memberPassword1'])
-        {
-            $data['mpasswd'] = password_hash($_POST['memberPassword1'], PASSWORD_BCRYPT);
-        }
-        else
-        {
-            echo '<script type="text/javascript">';
-            echo 'alert("Password tidak boleh kosong");';
-            echo 'location.href = \'index.php?p=daftar_online\';';
-            echo '</script>';
+        // Given password
+        // Validate password strength
+        $uppercase = preg_match('@[A-Z]@', $password);
+        $lowercase = preg_match('@[a-z]@', $password);
+        $number    = preg_match('@[0-9]@', $password);
+        $specialChars = preg_match('@[^\w]@', $password);
+
+        if(!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) {
+            header("location:index.php?p=daftar_online&register=invalidpw&name=$name&bday=$bday&address=$address&phone=$phone&email=$email&fb=$fb");
+
+            // echo '<script type="text/javascript">';
+            // echo 'alert("Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.");';
+            // echo 'location.href = \'index.php?p=daftar_online=invalidpw\';';
+            // echo '</script>';
             exit();
+            // echo 'Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.';
+        }else{
+            if ($_POST['memberPassword2'] === $_POST['memberPassword1'])
+            {
+                
+                $data['mpasswd'] = password_hash($_POST['memberPassword1'], PASSWORD_BCRYPT);
+                
+            }
+            else
+            {
+                // echo '<script type="text/javascript">';
+                // echo 'alert("Password cannot be empty");';
+                // echo 'location.href = \'index.php?p=daftar_online\';';
+                // echo '</script>';
+                header("location:index.php?p=daftar_online&register=pwnotmatched&name=$name&bday=$bday&address=$address&phone=$phone&email=$email&fb=$fb");
+                exit();
+            }
         }
+
     }
     else
     {
         echo '<script type="text/javascript">';
-        echo 'alert("Password tidak boleh kosong");';
+        echo 'alert("Password cannot be empty");';
         echo 'location.href = \'index.php?p=daftar_online\';';
         echo '</script>';
         exit();
     }
+
+    // Check if email is exist (commented first)
+    // $sql_string = "SELECT * FROM member_online WHERE member_email=? LIMIT 1";
+    // $sql_string2 = "SELECT * FROM member WHERE member_email=? LIMIT 1";
+
+    // // Prepare the statements
+    // $stmt = $dbs->prepare($sql_string);
+    // $stmt2 = $dbs->prepare($sql_string2);
+
+    // // Bind the parameter
+    // $stmt->bind_param("s", $email);
+    // $stmt2->bind_param("s", $email);
+
+    // // Execute the queries
+    // $stmt->execute();
+    // $stmt2->execute();
+
+    // // Store the results
+    // $stmt->store_result();
+    // $stmt2->store_result();
+
+    // // Check if any rows were returned
+    // if ($stmt->num_rows > 0 || $stmt2->num_rows > 0) {
+    //     header("location:index.php?p=daftar_online&register=emailexist");
+    //     exit();
+    // } else {
+    //     // Filter Laverdad Email
+    //     $domain = explode('@', $email);
+    //     switch (strtolower($domain[1])) {
+    //         case 'student.laverdad.edu.ph':
+    //         case 'laverdad.edu.ph':
+    //             // Additional logic for valid email
+    //             $data['member_email'] = $dbs->real_escape_string($_POST['memberEmail']);
+    //             break;
+    //         default:
+    //             header("location:index.php?p=daftar_online&register=invalidemail");
+    //             exit();
+    //             break;
+    //     }
+    // }
+
+    // // Close the statements
+    // $stmt->close();
+    // $stmt2->close();
+
+      
 
     // Date time
     $data['input_date'] = date('Y-m-d');
@@ -138,7 +230,9 @@ function saveRegister()
         }
         else
         {
-            utility::jsAlert('The file was not uploaded successfully because: ' . $Upload->getError());
+            // utility::jsAlert('The file was not uploaded successfully because: ' . $Upload->getError());
+            header("location:index.php?p=daftar_online&register=imageerror");
+            exit();
         }
     }
         
@@ -152,16 +246,17 @@ function saveRegister()
 
     if ($insert)
     {
-        echo '<script type="text/javascript">';
-        echo 'alert("Registered successfully. '.$meta['regisInfo'].'");';
-        echo 'location.href = \'index.php?p=daftar_online\';';
-        echo '</script>';
+        // echo '<script type="text/javascript">';
+        // echo 'alert("Registered successfully. '.$meta['regisInfo'].'");';
+        // echo 'location.href = \'index.php?p=daftar_online\';';
+        // echo '</script>';
+        header("location:index.php?p=daftar_online&register=success");
         exit();
     }
     else
     {
         echo '<script type="text/javascript">';
-        echo 'alert("Gagal terdaftar segera hubungi petugas perpustakaan, untuk info selanjutnya. '.$sql->error.'");';
+        echo 'alert("Failed to register, immediately contact the librarian, for further information. '.$sql->error.'");';
         echo 'location.href = \'index.php?p=daftar_online\';';
         echo '</script>';
         exit();
