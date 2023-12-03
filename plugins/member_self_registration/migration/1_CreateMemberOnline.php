@@ -16,21 +16,27 @@ class CreateMemberOnline extends \SLiMS\Migration\Migration
     {
         DB::getInstance()->query("CREATE TABLE IF NOT EXISTS `member_online` (
                                     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                    `member_id` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
                                     `member_name` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
                                     `birth_date` date DEFAULT NULL,
+                                    `grade_year` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+                                    `college_grad` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
                                     `inst_name` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+                                    `department` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
                                     `gender` int(1) NOT NULL,
                                     `member_address` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
                                     `member_phone` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL,
                                     `member_email` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+                                    `member_fb` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
                                     `mpasswd` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL,
                                     `input_date` date DEFAULT NULL,
                                     `last_update` date DEFAULT NULL
                                 ) ENGINE='MyISAM';");
     }
-
+    
     public function down()
     {
-        
+        DB::getInstance()->query("DROP TABLE IF EXISTS `member_online`;");
     }
+    
 }

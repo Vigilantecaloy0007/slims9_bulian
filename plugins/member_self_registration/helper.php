@@ -55,13 +55,20 @@ function saveRegister()
 
     // set up data
     $map = [
-            'memberName' => 'member_name', 'memberBirth' => 'birth_date', 
-            'memberInst' => 'inst_name', 'memberSex' => 'gender',
-            'memberAddress' => 'member_address', 'memberPhone' => 'member_phone',
-            'memberEmail' => 'member_email',
-            'memberType' => 'member_type_id',
-           ];
-
+        'memberID' => 'member_id',
+        'memberName' => 'member_name', 
+        'memberBirth' => 'birth_date', 
+        'memberInst' => 'inst_name', 
+        'gradeYear' => 'grade_year',
+        'memberSex' => 'gender',
+        'collegeGrad' => 'college_grad',
+        'department' => 'department',
+        'memberAddress' => 'member_address', 
+        'memberPhone' => 'member_phone',
+        'memberEmail' => 'member_email',
+        'memberFb' => 'member_fb',
+        'memberType' => 'member_type_id',
+       ];
     $data = [];
     foreach ($map as $key => $column_name) {
         if (isset($_POST[$key]))
@@ -131,7 +138,7 @@ function saveRegister()
         }
         else
         {
-            utility::jsAlert('File tidak berhasil diunggah karena : ' . $Upload->getError());
+            utility::jsAlert('The file was not uploaded successfully because: ' . $Upload->getError());
         }
     }
         
@@ -146,7 +153,7 @@ function saveRegister()
     if ($insert)
     {
         echo '<script type="text/javascript">';
-        echo 'alert("Berhasil terdaftar. '.$meta['regisInfo'].'");';
+        echo 'alert("Registered successfully. '.$meta['regisInfo'].'");';
         echo 'location.href = \'index.php?p=daftar_online\';';
         echo '</script>';
         exit();
@@ -220,11 +227,20 @@ function updateRegister()
             {
                 // set up data
                 $map = [
-                        'memberName' => 'member_name', 'memberBirth' => 'birth_date', 
-                        'memberInst' => 'inst_name', 'memberSex' => 'gender',
-                        'memberAddress' => 'member_address', 'memberPhone' => 'member_phone',
-                        'memberEmail' => 'member_email'
-                    ];
+                    'memberID' => 'member_id',
+                    'memberName' => 'member_name', 
+                    'memberBirth' => 'birth_date', 
+                    'memberInst' => 'inst_name', 
+                    'gradeYear' => 'grade_year',
+                    'memberSex' => 'gender',
+                    'collegeGrad' => 'college_grad',
+                    'department' => 'department',
+                    'memberAddress' => 'member_address', 
+                    'memberPhone' => 'member_phone',
+                    'memberEmail' => 'member_email',
+                    'memberFb' => 'member_fb',
+                    'memberType' => 'member_type_id',
+                   ];
 
                 $data = [];
                 foreach ($map as $key => $column_name) {
@@ -240,7 +256,7 @@ function updateRegister()
                 }
 
                 $data['member_id'] = $memberId;
-                $data['mpasswd'] = (isset($dataResult['mpasswd'])) ? $dataResult['mpasswd'] : 'Tidak Ada Password';
+                $data['mpasswd'] = (isset($dataResult['mpasswd'])) ? $dataResult['mpasswd'] : 'No Password';
                 $data['input_date'] = (isset($dataResult['input_date'])) ? $dataResult['input_date'] : date('Y-m-d');
                 $data['last_update'] = date('Y-m-d');
                 $data['expire_date'] = date('Y-m-d', strtotime("+1 year"));
@@ -250,13 +266,13 @@ function updateRegister()
                 if ($insert)
                 {
                     $sql->delete('member_online', "id='$updateRecId'");
-                    utility::jsToastr('Self Register Form', 'Berhasil menyimpan data', 'success');
+                    utility::jsToastr('Self Register Form', 'Successfully saved data', 'success');
                     echo '<script>parent.$("#mainContent").simbioAJAX("'.MWB.'membership/index.php")</script>';
                     exit;
                 }
                 else
                 {
-                    utility::jsToastr('Self Register Form', 'Gagal menyimpan data 2', 'error');
+                    utility::jsToastr('Self Register Form', 'Failed to save data 2', 'error');
                     exit;
                 }
             }
@@ -267,13 +283,13 @@ function updateRegister()
 
             if ($update)
             {
-                utility::jsToastr('Self Register Form', 'Berhasil menyimpan data', 'success');
+                utility::jsToastr('Self Register Form', 'Successfully saved data', 'success');
                 echo '<script>parent.$("#mainContent").simbioAJAX("'.MWB.'membership/index.php")</script>';
                 exit;
             }
             else
             {
-                utility::jsToastr('Self Register Form', 'Gagal menyimpan data 3', 'error');
+                utility::jsToastr('Self Register Form', 'Failed to save data 3', 'error');
                 exit;
             }
         }
@@ -330,12 +346,12 @@ function saveSetting($self)
             // }
 
             // set alert
-            utility::jsToastr('Self Register Form', 'Berhasil menyimpan data', 'success');
+            utility::jsToastr('Self Register Form', 'Successfully saved data', 'success');
             echo '<script>parent.$("#mainContent").simbioAJAX("'.$self.'")</script>';
         }
         else
         {
-            utility::jsToastr('Self Register Form', 'Gagal menyimpan data '.$sql->error, 'error');
+            utility::jsToastr('Self Register Form', 'Failed to save data '.$sql->error, 'error');
         }
         exit;
     }
@@ -371,12 +387,12 @@ function deleteItem($self)
 
         if (!$fail)
         {
-            utility::jsToastr('Register Member Online', 'Berhail menghapus data.', 'success');
+            utility::jsToastr('Register Member Online', 'Successfully deleted data.', 'success');
             echo '<script>parent.$("#mainContent").simbioAJAX("'.$self.'")</script>';
         }
         else
         {
-            utility::jsToastr('Register Member Online', 'Gagal menghapus data', 'error');
+            utility::jsToastr('Register Member Online', 'Failed to delete data', 'error');
         }
         exit;
     }
@@ -426,7 +442,8 @@ function dirCheckPermission()
     $msg = '';
     if (!is_writable(SB.'lib'.DS.'contents'.DS))
     {
-        $msg = 'Direktori : <b>'.SB.'lib'.DS.'contents'.DS.'</b> tidak dapat ditulis!. Harap merubah permission pada folder tersebut.';
+        $msg = 'Directory: <b>' . SB . 'lib' . DS . 'contents' . DS . '</b> cannot be written! Please change the permissions on the folder.';
+
     }
 
     return $msg;

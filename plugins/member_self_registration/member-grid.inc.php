@@ -22,10 +22,12 @@ $table_spec = $attribute[0];
 
 // set column
 $datagrid->setSQLColumn($attribute[1], 
+                        'member_name AS \''.__('Member Name').'\'',
+                        'grade_year AS \''.__('Grade & Year').'\'',
                         'member_name AS \''.__('Member Name').'\'', 
                         'member_email AS \''.__('E-mail').'\'', 
                         'member_phone AS \''.__('Phone Number').'\'',
-                        'input_date AS \'Tanggal Daftar\'',
+                        'input_date AS \'REGISTER DATE\'',
                         'last_update AS \'' . __('Last Update') . '\'');
 
 // ordering

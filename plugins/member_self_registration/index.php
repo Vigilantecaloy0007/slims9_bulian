@@ -28,7 +28,7 @@ if (!$can_read) {
     die('<div class="errorBox">' . __('You are not authorized to view this section') . '</div>');
 }
 
-$page_title = 'Daftar Online';
+$page_title = 'Online Registration Settings';
 
 // set meta
 $meta = [];
@@ -55,8 +55,8 @@ deleteItem(getCurrentUrl(['memberList' => 1]));
         </div>
         <div class="sub_section">
             <div class="btn-group">
-                <a href="<?= getCurrentUrl(['memberList' => 1]) ?>" class="btn btn-primary">Daftar Anggota Online</a>
-                <a href="<?= getCurrentUrl(['formSetting' => 1]) ?>" class="btn btn-success">Pengaturan Form</a>
+                <a href="<?= getCurrentUrl(['memberList' => 1]) ?>" class="btn btn-primary">Registered Mermbers List</a>
+                <a href="<?= getCurrentUrl(['formSetting' => 1]) ?>" class="btn btn-success">Form Settings</a>
             </div>
         </div>
     </div>
