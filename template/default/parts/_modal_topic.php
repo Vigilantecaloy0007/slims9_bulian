@@ -81,9 +81,109 @@
                     </li>
                 </ul>
             </div>
-            <div class="modal-footer text-muted text-sm">
-                <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><?=  __('Special Collection'); ?></h5>
             </div>
+            <div class="modal-body">
+                <ul class="topic d-flex flex-wrap justify-content-center p-0">
+                    <li class="d-flex justify-content-center align-items-center m-2">
+                        <a href="index.php?callnumber=0&search=search" class="d-flex flex-column">
+                            <img src="<?=  assets('images/logos/accountancy.jpg'); ?>" width="80" class="mb-3 mx-auto"/>
+                            <?=  __('Accountancy'); ?>
+                        </a>
+                    </li>
+                    <li class="d-flex justify-content-center align-items-center m-2">
+                        <a href="index.php?callnumber=1&search=search" class="d-flex flex-column">
+                            <img src="<?=  assets('images/logos/ba.jpg'); ?>" width="80" class="mb-3 mx-auto"/>
+                            <?=  __('Bussines Administration'); ?>
+                        </a>
+                    </li>
+                    <li class="d-flex justify-content-center align-items-center m-2">
+                        <a href="index.php?callnumber=2&search=search" class="d-flex flex-column">
+                            <img src="<?=  assets('images/logos/cas.png'); ?>" width="80" class="mb-3 mx-auto"/>
+                            <?=  __('College of Art'); ?>
+                        </a>
+                    </li>
+                    <li class="d-flex justify-content-center align-items-center m-2">
+                        <a href="index.php?callnumber=3&search=search" class="d-flex flex-column">
+                            <img src="<?=  assets('images/logos/pt.jpg'); ?>" width="80" class="mb-3 mx-auto"/>
+                            <?=  __('College of Physical Theraphy'); ?>
+                        </a>
+                    </li>
+                    <li class="d-flex justify-content-center align-items-center m-2">
+                        <a href="index.php?callnumber=4&search=search" class="d-flex flex-column">
+                            <img src="<?=  assets('images/logos/crt.png'); ?>" width="80" class="mb-3 mx-auto"/>
+                            <?=  __('College of Radio Technology'); ?>
+                        </a>
+                    </li>
+                    <li class="d-flex justify-content-center align-items-center m-2">
+                        <a href="index.php?callnumber=5&search=search" class="d-flex flex-column">
+                            <img src="<?=  assets('images/logos/nurs.jpg'); ?>" width="80" class="mb-3 mx-auto"/>
+                            <?=  __('College of Nursing'); ?>
+                        </a>
+                    </li>
+                    <li class="d-flex justify-content-center align-items-center m-2">
+                        <a href="index.php?callnumber=6&search=search" class="d-flex flex-column">
+                            <img src="<?=  assets('images/logos/educ.jpg'); ?>" width="80" class="mb-3 mx-auto"/>
+                            <?=  __('College of Education'); ?>
+                        </a>
+                    </li>
+                    <li class="d-flex justify-content-center align-items-center m-2">
+                        <a href="index.php?callnumber=7&search=search" class="d-flex flex-column">
+                            <img src="<?=  assets('images/logos/ccs.jpg'); ?>" width="80" class="mb-3 mx-auto"/>
+                            <?=  __('College of Computer Studies'); ?>
+                        </a>
+                    </li>
+                    <li class="d-flex justify-content-center align-items-center m-2">
+                        <a href="index.php?callnumber=8&search=search" class="d-flex flex-column">
+                            <img src="<?=  assets('images/logos/ano.crdownload'); ?>" width="80" class="mb-3 mx-auto"/>
+                            <?=  __('College of Law'); ?>
+                        </a>
+                    </li>
+                   
+                </ul>
+            </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><?=  __('Other Library'); ?></h5>
+            </div>
+            <div class="modal-body">
+                <ul class="topic d-flex flex-wrap justify-content-center p-0">
+                    <li class="d-flex justify-content-center align-items-center m-2">
+                        <a href="index.php?callnumber=0&search=search" class="d-flex flex-column">
+                            <img src="<?=  assets('images/logos/elem.jpg'); ?>" width="80" class="mb-3 mx-auto"/>
+                            <?=  __('Grade School Library'); ?>
+                        </a>
+                    </li>
+                    <li class="d-flex justify-content-center align-items-center m-2">
+                        <a href="index.php?callnumber=1&search=search" class="d-flex flex-column">
+                            <img src="<?=  assets('images/logos/jhs.png'); ?>" width="80" class="mb-3 mx-auto"/>
+                            <?=  __('High School Library'); ?>
+                        </a>
+                    </li>
+                    <li class="d-flex justify-content-center align-items-center m-2">
+                        <a href="index.php?callnumber=2&search=search" class="d-flex flex-column">
+                            <img src="<?=  assets('images/logos/shs.png'); ?>" width="80" class="mb-3 mx-auto"/>
+                            <?=  __('Senior High School Library'); ?>
+                        </a>
+                    </li>
+                    <li class="d-flex justify-content-center align-items-center m-2">
+                        <a href="index.php?callnumber=3&search=search" class="d-flex flex-column">
+                            <img src="<?=  assets('images/logos/nurs.jpg'); ?>" width="80" class="mb-3 mx-auto"/>
+                            <?=  __('Allied Health Library'); ?>
+                        </a>
+                    </li>
+                    <li class="d-flex justify-content-center align-items-center m-2">
+                        <a href="index.php?callnumber=4&search=search" class="d-flex flex-column">
+                            <img src="<?=  assets('images/logos/grad.jpg'); ?>" width="80" class="mb-3 mx-auto"/>
+                            <?=  __('Graduate Studies Library'); ?>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- <div class="modal-footer text-muted text-sm">
+                <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+            </div> -->
         </div>
     </div>
 </div>
